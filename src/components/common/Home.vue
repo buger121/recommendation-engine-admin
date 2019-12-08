@@ -55,7 +55,6 @@ export default {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  overflow-y: scroll;
 }
 .content-collapse {
   left: var(--aside-expanded-width);

@@ -11,16 +11,35 @@
     </div>
 
     <div class="container">
-      <el-table
-        :data="tableData"
-        style="width: 100%;margin-bottom: 20px;"
-        row-key="id"
-        border
-        :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
-      >
-        <el-table-column prop="date" label="日期" sortable width="180"></el-table-column>
-        <el-table-column prop="name" label="姓名" sortable width="180"></el-table-column>
-        <el-table-column prop="address" label="地址"></el-table-column>
+      <el-table :data="tableData" style="width: 100%" @expand-change="expandRow">
+        <el-table-column type="expand">
+          <template>
+            <el-table :data="subTableData" class="sub-table" border>
+              <el-table-column label="算法名称" prop="mix"></el-table-column>
+              <el-table-column label="算法参数" prop="args"></el-table-column>
+              <el-table-column label="权重" prop="ratio"></el-table-column>
+              <el-table-column label="算法类型" prop="recall"></el-table-column>
+            </el-table>
+          </template>
+        </el-table-column>
+        <el-table-column label="策略名称" prop="tactics_name"></el-table-column>
+        <el-table-column label="创建时间" prop="create_time"></el-table-column>
+        <el-table-column label="状态" prop="type"></el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button
+              type="text"
+              icon="el-icon-edit"
+              @click="handleEdit(scope.$index, scope.row)"
+            >修改</el-button>
+            <el-button
+              type="text"
+              icon="el-icon-delete"
+              class="red"
+              @click="handleDelete(scope.$index, scope.row)"
+            >删除</el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
   </div>
@@ -30,46 +49,52 @@
 export default {
   data() {
     return {
-      tableData: [
-        {
-          id: 1,
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          id: 2,
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄"
-        },
-        {
-          id: 3,
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄",
-          children: [
-            {
-              id: 31,
-              date: "2016-05-01",
-              name: "王小虎",
-              address: "上海市普陀区金沙江路 1519 弄"
-            },
-            {
-              id: 32,
-              date: "2016-05-01",
-              name: "王小虎",
-              address: "上海市普陀区金沙江路 1519 弄"
-            }
-          ]
-        },
-        {
-          id: 4,
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        }
-      ]
+      tableData: [],
+      subTableData: [],
+      args: {
+        mix: "weighted_strategy_merge",
+        args: { args1: "value1" },
+        ratio: [1],
+        recall: ["non_personalize"]
+      }
     };
+  },
+  methods: {
+    handleEdit(index, row) {
+      console.log(index, row);
+    },
+    handleDelete(index, row) {
+      console.log(index, row);
+    },
+    expandRow(row) {
+      console.log("row", row);
+    }
+    // SpanMethod() {}
+  },
+  mounted() {
+    this.$http
+      .get(
+        "https://result.eolinker.com/XPSWZS5f34ebaef584347408754ae22a11de7565a5c5cfd?uri=get_all_tactic"
+      )
+      .then(res => {
+        this.tableData = res.data.data;
+      })
+      .catch(error => console.log(error));
   }
 };
+</script>
+
+<style scoped>
+.demo-table-expand {
+  font-size: 0;
+}
+.demo-table-expand label {
+  width: 90px;
+  color: #99a9bf;
+}
+.demo-table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 50%;
+}
+</style>

@@ -95,15 +95,6 @@ export default {
       }
     }
   },
-  computed: {
-    // alg_data() {
-    //   let alg_data = this.data.map(obj => {
-    //     let { note, type, func, name } = obj;
-    //     return { note, type, func, name };
-    //   });
-    //   return alg_data;
-    // }
-  },
   mounted() {
     this.$http
       .get(

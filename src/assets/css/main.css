@@ -35,7 +35,7 @@ a {
   --aside-expanded-width: 170px;
 }
 
-/* 全局组件样式 */
+/* 组件样式 */
 .container {
   margin-left: 10px;
   padding: 30px 20px;
@@ -53,4 +53,20 @@ a {
 
 .el-table th {
   background-color: #f5f7fa !important;
+}
+.el-table {
+  margin-bottom: 20px;
+}
+.sub-table th {
+  background-color: lightsalmon !important;
+}
+.sub-table th {
+  padding: 5px !important;
+}
+
+.red {
+  color: #ff0000 !important;
+}
+.yellow {
+  color: #ffd900 !important;
 }
