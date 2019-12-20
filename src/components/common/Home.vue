@@ -50,6 +50,7 @@ export default {
   background-color: #f0f0f0;
   -webkit-transition: left 0.3s ease-in-out;
   transition: left 0.3s ease-in-out;
+  overflow-y: scroll;
 }
 .content {
   width: 100%;
@@ -65,7 +66,5 @@ export default {
   top: 0;
   bottom: 0;
   width: 99%;
-  overflow-y: auto;
-  overflow-x: hidden;
 }
 </style>

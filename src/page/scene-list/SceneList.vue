@@ -12,13 +12,18 @@
 
     <div class="container">
       <div class="table">
-        <el-table :data="data" border width="80%">
-          <el-table-column label="场景名称" prop="sence" width="100" align="center"></el-table-column>
-          <el-table-column label="场景编码" prop="_id" width="160" align="center"></el-table-column>
+        <el-table :data="tableData" border width="80%">
+          <el-table-column label="场景名称" prop="sence" align="center"></el-table-column>
+          <el-table-column label="场景编码" prop="_id" align="center" width="120"></el-table-column>
           <el-table-column label="场景说明" prop="note" width="170" align="center"></el-table-column>
           <el-table-column label="应用策略" prop="tactics.tactics_name" width="100" align="center"></el-table-column>
-          <el-table-column label="创建时间" prop="create_time" width="100" align="center"></el-table-column>
-          <el-table-column label="创建人" prop="creator" align="center"></el-table-column>
+          <el-table-column label="创建时间" width="120" align="center">
+            <template slot-scope="scope">
+              <i class="el-icon-time"></i>
+              <span style="margin-left: 10px">{{ scope.row.create_time }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="创建人" prop="creator" align="center" width="100"></el-table-column>
           <el-table-column label="状态" width="100" align="center">
             <template slot-scope="scope">
               <el-tag :type="tagType(scope.row.type)">
@@ -59,7 +64,11 @@
 
         <div class="ctrlOpt">
           <div class="pagination">
-            <el-pagination background layout="total, prev, pager, next" :total="this.data.length"></el-pagination>
+            <el-pagination
+              background
+              layout="total, prev, pager, next"
+              :total="this.tableData.length"
+            ></el-pagination>
           </div>
           <div>
             <el-button type="primary" icon="el-icon-plus" @click="handleAdd()">添加场景</el-button>
@@ -110,7 +119,7 @@
 export default {
   data: function() {
     return {
-      data: [],
+      tableData: [],
       dialogFormVisible: false,
       form: {}
     };
@@ -124,20 +133,20 @@ export default {
           return "danger";
       }
     },
-    handleDelete(index) {
+    handleDelete() {},
+    handleEdit() {},
+    handleStop(index) {
       try {
-        if (this.data[index].type !== "true") return;
-        this.data[index].type = "false";
+        if (this.tableData[index].type !== "true") return;
+        this.tableData[index].type = "false";
         this.$message({
-          message: "删除成功",
+          message: "停用成功",
           type: "success"
         });
       } catch {
-        this.$message.error("删除错误");
+        this.$message.error("停用错误");
       }
     },
-    handleEdit() {},
-    handleStop() {},
     handleAdd() {
       // this.$router.push("/scene-add");
       this.dialogFormVisible = true;
@@ -149,7 +158,12 @@ export default {
         "https://result.eolinker.com/XPSWZS5f34ebaef584347408754ae22a11de7565a5c5cfd?uri=get_all_scene"
       )
       .then(res => {
-        this.data = res.data.data;
+        let data = res.data.data.scene;
+        data = data.map(item => {
+          item.create_time = this.TimeFormat(item.create_time);
+          return item;
+        });
+        this.tableData = data;
       })
       .catch(error => console.log(error));
   }

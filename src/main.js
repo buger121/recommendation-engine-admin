@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import util from './util.js';
 import router from './router/router.js';
 import Cookie from 'vue-cookie';
 import App from './App.vue';
@@ -11,6 +12,7 @@ Vue.prototype.$http = axios;
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
+Vue.use(util);
 Vue.use(Cookie);
 
 //使用钩子函数对路由进行权限跳转

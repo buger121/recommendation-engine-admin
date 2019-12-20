@@ -38,6 +38,7 @@ a {
 /* 组件样式 */
 .container {
   margin-left: 10px;
+  margin-bottom: 25px;
   padding: 30px 20px;
   background: #fff;
   border: 1px solid #ddd;
